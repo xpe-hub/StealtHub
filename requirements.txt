@@ -1,0 +1,86 @@
+# StealthHub AI v2.0 - Python Dependencies
+# Advanced Game Development Platform
+# Author: xpe.nettt
+# Community: Community Stealth
+
+# Core AI and ML Libraries
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=1.0.0
+
+# Web and API Integration
+requests>=2.28.0
+aiohttp>=3.8.0
+flask>=2.2.0
+
+# Database and Storage
+sqlite3
+
+# Image Processing (for panel analysis)
+Pillow>=9.0.0
+opencv-python>=4.5.0
+
+# Text Processing and NLP
+nltk>=3.7
+regex>=2022.0.0
+
+# Configuration and Environment
+python-dotenv>=0.19.0
+pyyaml>=6.0
+
+# Logging and Monitoring
+loguru>=0.6.0
+
+# System Monitoring
+psutil>=5.9.0
+
+# GUI Support
+tkinter-tooltip>=2.0.0
+
+# Testing and Development
+pytest>=7.0.0
+pytest-asyncio>=0.20.0
+
+# Build and Packaging
+setuptools>=65.0.0
+wheel>=0.37.0
+
+# Discord Integration (Optional)
+# discord.py>=2.2.0  # Uncomment if using Discord bot features
+
+# GUI Support (Optional)
+# customtkinter>=5.0.0  # For modern GUI
+
+# Cryptography and Security
+cryptography>=3.4.0
+
+# Date and Time Processing
+python-dateutil>=2.8.0
+
+# HTTP Client Enhancements
+httpx>=0.24.0
+
+# JSON Processing
+orjson>=3.8.0
+
+# Progress Bars
+tqdm>=4.64.0
+
+# Type Checking Support
+mypy>=1.0.0
+
+# Development Tools
+black>=22.0.0
+flake8>=5.0.0
+
+# Note: This is a comprehensive list of dependencies for StealthHub AI v2.0
+# For minimal installation, you can install only the core dependencies:
+# numpy, pandas, requests, aiohttp, Pillow, psutil
+#
+# Discord bot features require additional Discord.py installation
+# GUI features require tkinter (usually included with Python)
+#
+# For Community Stealth Discord integration, you'll need:
+# - Discord Bot Token
+# - Access to Community Stealth Discord server
+# - Appropriate bot permissions

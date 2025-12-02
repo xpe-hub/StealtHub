@@ -1,0 +1,32 @@
+# StealthHub AI v2.0 - Quick Test Examples
+# Author: xpe.nettt - Community Stealth
+
+# Test 1: Simple Aimbot Request
+aimbot for Free Fire v1.90.4 with fov 180 and smoothness 2.0
+
+# Test 2: ESP Generation  
+make ESP for Free Fire v1.89.2 with boxes names and health bars
+
+# Test 3: No Recoil Request
+create no recoil for FF v1.90.4 with low multipliers
+
+# Test 4: SpeedHack
+generate speedhack with 3x multiplier for Free Fire v1.89.2
+
+# Test 5: Combined Features
+make aimbot and ESP combo for FF v1.90.4 BlueStacks with fov 200
+
+# Test 6: MSI Platform Request
+create ESP and speedhack for Free Fire v1.90.4 MSI platform
+
+# Test 7: Advanced Configuration
+aimbot for FF v1.90.4 with fov 360 aimkey 5 silent aim enabled
+
+# Test 8: Panel Request with References
+make ESP panel like the one in Community Stealth Discord
+
+# Test 9: Discord Content Analysis
+Here's my ESP code for Free Fire v1.90.4 - needs offsets please
+
+# Test 10: Help Request
+help me create a complete hack package for FF v1.89.2 MSI
