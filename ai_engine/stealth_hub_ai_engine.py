@@ -93,55 +93,6 @@ class ProgrammingLanguage(Enum):
     PYTHON = "python"
     BOTH = "both"
 
-class ThreatLevel(Enum):
-    LOW = "LOW"
-    MEDIUM = "MEDIUM"
-    HIGH = "HIGH"
-    CRITICAL = "CRITICAL"
-
-class AIFeature(Enum):
-    AIMBOT = "aimbot"
-    ESP = "esp"
-    SPEEDHACK = "speedhack"
-    RECOIL_CONTROL = "recoil_control"
-    FLY_HACK = "fly_hack"
-    NO_RECOIL = "no_recoil"
-    NIGHT_VISION = "night_vision"
-    CHAMS = "chams"
-    ANTI_DETECTION = "anti_detection"
-    PYTHON_BOT = "python_bot"
-    MEMORY_ANALYZER = "memory_analyzer"
-    OFFSET_SCANNER = "offset_scanner"
-    GAME_INJECTOR = "game_injector"
-    DISCORD_BOT = "discord_bot"
-    MCP_SERVER = "mcp_server"
-
-@dataclass
-class DiscordAnalysis:
-    """Discord analysis result structure"""
-    channel_id: str
-    message_id: str
-    content: str
-    threat_level: ThreatLevel
-    detected_features: List[AIFeature]
-    language_preference: ProgrammingLanguage
-    confidence_score: float
-    raw_code: str
-    timestamp: datetime
-    image_analysis: Optional[Dict] = None
-
-@dataclass
-class GenerationRequest:
-    """AI generation request structure"""
-    user_request: str
-    detected_features: List[AIFeature]
-    game_version: str
-    platform: str
-    language_preference: ProgrammingLanguage
-    offsets: Optional[Dict[str, str]] = None
-    reference_images: Optional[List[str]] = None
-    custom_requirements: Optional[Dict] = None
-
 class StealtHubAI:
     """
     StealthHub AI Engine - Advanced AI for Game Development

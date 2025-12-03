@@ -14,7 +14,7 @@ aiohttp>=3.8.0
 flask>=2.2.0
 
 # Database and Storage
-sqlite3
+# sqlite3 is built-in with Python (no pip install needed)
 
 # Image Processing (for panel analysis)
 Pillow>=9.0.0

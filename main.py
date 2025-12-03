@@ -268,7 +268,7 @@ pause"""
         
         files_xml += '    <ClInclude Include="src\\offsets.h" />\n'
         
-        return f"""<?xml version="1.0" encoding="utf-8"?>
+        return r"""<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ConfigurationType>DynamicLibrary</ConfigurationType>

@@ -944,10 +944,9 @@ bool InitializeAll() {{
 void UpdateAll() {{
     if(!g_initialized) return;
     
-{init_objects.strip() if init_objects else ""}
     // Update all systems
-    {init_objects.strip() if init_objects else ""}
-}
+    // TODO: Add initialization objects here
+}}
 
 // Cleanup function
 void CleanupAll() {{
