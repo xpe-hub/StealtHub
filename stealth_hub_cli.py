@@ -19,7 +19,7 @@ from datetime import datetime
 sys.path.append(os.path.join(os.path.dirname(__file__), "ai_engine"))
 
 try:
-    from stealth_hub_ai_engine import StealthHubAI, AIFeature, ThreatLevel
+    from stealth_hub_ai_engine import StealtHubAI, AIFeature, ThreatLevel
 except ImportError as e:
     print(f"❌ Failed to import StealthHub AI: {e}")
     print("Please ensure stealth_hub_ai_engine.py is in the ai_engine directory")
@@ -32,7 +32,7 @@ class StealthHubCLI:
     """
     
     def __init__(self):
-        self.ai = StealthHubAI()
+        self.ai = StealtHubAI()
         self.output_dir = Path("generated_dlls")
         self.output_dir.mkdir(exist_ok=True)
         

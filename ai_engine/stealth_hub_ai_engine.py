@@ -913,7 +913,7 @@ extern "C" {{
         if fov_match:
             custom_requirements["fov"] = float(fov_match.group(1))
         
-        aimbot_match = re.search(r'aim(\\[?:\\s]*(\\d+(?:\\.\\d+)?)f?))', request_lower)
+        aimbot_match = re.search(r'aim(?:\\s*(\\d+(?:\\.\\d+)?)f?)', request_lower)
         if aimbot_match:
             custom_requirements["aim_smoothness"] = float(aimbot_match.group(2))
         
