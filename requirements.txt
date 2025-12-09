@@ -37,9 +37,21 @@ psutil>=5.9.0
 # GUI Support
 tkinter-tooltip>=2.0.0
 
-# Testing and Development
+# Testing and Quality Assurance
 pytest>=7.0.0
 pytest-asyncio>=0.20.0
+pytest-cov>=4.0.0
+bandit>=1.7.0
+safety>=2.3.0
+
+# Build and Packaging Tools
+pyinstaller>=5.0.0
+build>=0.8.0
+twine>=4.0.0
+
+# Documentation Generation
+mkdocs>=1.4.0
+mkdocs-material>=9.0.0
 
 # Build and Packaging
 setuptools>=65.0.0
@@ -72,6 +84,7 @@ mypy>=1.0.0
 # Development Tools
 black>=22.0.0
 flake8>=5.0.0
+isort>=5.10.0
 
 # Note: This is a comprehensive list of dependencies for StealthHub AI v2.0
 # For minimal installation, you can install only the core dependencies:
