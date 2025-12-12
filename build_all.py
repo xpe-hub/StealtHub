@@ -1,19 +1,81 @@
 #!/usr/bin/env python3
 """
-StealtHub AI - Complete Build System
-Builds all executables and packages automatically
+StealtHub AI - Smart Build System
+Builds standalone executables without dependencies
 Author: xpe.nettt - Community Stealth
+
+This script has been updated to use the smart builder
+for better cross-platform compatibility.
 """
 
 import os
 import sys
 import subprocess
-import shutil
-import json
-from pathlib import Path
-import zipfile
 import time
 from datetime import datetime
+
+def run_smart_build():
+    """Run the smart build system"""
+    print("🤖 StealtHub AI - Smart Build System")
+    print("=" * 50)
+    print("🔨 Building standalone executables...")
+    print("📦 No dependencies required for end users!")
+    print()
+    
+    try:
+        # Import and run smart builder
+        from smart_build import SmartBuilder
+        builder = SmartBuilder()
+        return builder.run_build()
+        
+    except ImportError:
+        print("❌ Smart build module not found")
+        print("🔄 Falling back to manual build...")
+        return manual_build()
+    except Exception as e:
+        print(f"❌ Smart build error: {e}")
+        print("🔄 Trying manual build...")
+        return manual_build()
+
+def manual_build():
+    """Fallback manual build"""
+    print("🔧 Manual Build Mode")
+    
+    targets = [
+        ("StealtHub_AI_Chat", "stealth_hub_chat.py", True),
+        ("StealtHub_AI_CLI", "stealth_hub_cli.py", False), 
+        ("StealtHub_AI_Launcher", "stealth_hub_launcher.py", True),
+        ("StealtHub_AI_GUI", "gui/control_panel.py", True),
+        ("StealtHub_AI_Main", "main.py", False)
+    ]
+    
+    successful = 0
+    for name, script, windowed in targets:
+        print(f"🔨 Building {name}...")
+        if os.path.exists(script):
+            cmd = [
+                "pyinstaller", "--onefile", "--clean", 
+                f"--name={name}",
+                "--distpath=./dist", "--workpath=./build"
+            ]
+            if windowed:
+                cmd.append("--windowed")
+            cmd.append(script)
+            
+            try:
+                result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+                if result.returncode == 0:
+                    print(f"✅ {name} built successfully")
+                    successful += 1
+                else:
+                    print(f"❌ {name} failed: {result.stderr}")
+            except Exception as e:
+                print(f"❌ {name} error: {e}")
+        else:
+            print(f"❌ {name}: {script} not found")
+            
+    print(f"\\n📊 Manual build results: {successful}/{len(targets)} successful")
+    return successful > 0
 
 class StealtHubBuilder:
     """Complete build system for StealtHub AI"""
@@ -462,8 +524,31 @@ MIT License - See LICENSE file for details.
 
 def main():
     """Main entry point"""
-    builder = StealtHubBuilder()
-    builder.run_build()
+    print("🤖 StealtHub AI - Build System v2.0")
+    print("=" * 50)
+    print("🎯 Building standalone executables...")
+    print("💡 End users won't need Python installation!")
+    print()
+    
+    success = run_smart_build()
+    
+    if success:
+        print("\n🎉 Build completed successfully!")
+        print("\n📋 Next steps:")
+        print("1. ✅ Executables ready in ./dist/ directory")
+        print("2. 📤 Upload to GitHub to trigger CI/CD")
+        print("3. 📦 Download from GitHub Releases")
+        print("4. 🚀 Users can run .exe files directly!")
+        print("\n🎯 Users can now:")
+        print("   • Download ZIP from GitHub")
+        print("   • Extract and run any .exe")
+        print("   • Start chatting with AI immediately")
+        print("   • NO Python installation required!")
+    else:
+        print("\n❌ Build failed. Check errors above.")
+        return 1
+        
+    return 0
 
 if __name__ == "__main__":
-    main()
+    exit(main())

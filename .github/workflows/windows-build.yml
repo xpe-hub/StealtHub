@@ -1,0 +1,334 @@
+name: 🔨 StealtHub AI - Windows Executable Builder
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.py'
+      - 'requirements.txt'
+      - 'ai_engine/**'
+      - 'gui/**'
+      - 'templates/**'
+      - 'offset_manager/**'
+  release:
+    types: [ published ]
+  workflow_dispatch:  # Permite ejecutar manualmente
+
+env:
+  PYTHON_VERSION: '3.9'
+  BUILD_VERSION: ${{ github.sha }}
+
+jobs:
+  # 🔨 Build Windows Executables
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: 📦 Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller>=5.0.0
+        
+    - name: 🔧 Setup Windows SDK for compilation
+      run: |
+        # Instalar herramientas de compilación si es necesario
+        choco install windows-sdk-10-version-2004-all
+        
+    - name: 🤖 Build Chat AI Executable
+      run: |
+        echo "🔨 Building Chat AI Executable..."
+        pyinstaller --onefile --windowed --name "StealtHub_AI_Chat" --distpath "./dist/" --workpath "./build/" stealth_hub_chat.py
+        
+    - name: ⚡ Build CLI Executable  
+      run: |
+        echo "🔨 Building CLI Executable..."
+        pyinstaller --onefile --name "StealtHub_AI_CLI" --distpath "./dist/" --workpath "./build/" stealth_hub_cli.py
+        
+    - name: 🚀 Build Launcher Executable
+      run: |
+        echo "🔨 Building Launcher Executable..."
+        pyinstaller --onefile --windowed --name "StealtHub_AI_Launcher" --distpath "./dist/" --workpath "./build/" stealth_hub_launcher.py
+        
+    - name: 🎮 Build GUI Control Panel
+      run: |
+        echo "🔨 Building GUI Control Panel..."
+        pyinstaller --onefile --windowed --name "StealtHub_AI_GUI" --distpath "./dist/" --workpath "./build/" gui/control_panel.py
+        
+    - name: 🏗️ Build Main System
+      run: |
+        echo "🔨 Building Main System..."
+        pyinstaller --onefile --name "StealtHub_AI_Main" --distpath "./dist/" --workpath "./build/" main.py
+        
+    - name: 🧹 Clean build artifacts
+      run: |
+        # Mantener solo los .exe
+        Get-ChildItem "./dist/" -Filter "*.exe" | ForEach-Object {
+          Write-Host "✅ Found executable: $($_.Name)"
+        }
+        
+    - name: 📦 Create Release Package
+      run: |
+        echo "📦 Creating release package..."
+        
+        # Crear directorio de paquete
+        New-Item -ItemType Directory -Force -Path "./release/StealtHub_AI_v2.0.0"
+        
+        # Copiar ejecutables
+        Copy-Item "./dist/*.exe" "./release/StealtHub_AI_v2.0.0/"
+        
+        # Copiar archivos de configuración
+        New-Item -ItemType Directory -Force -Path "./release/StealtHub_AI_v2.0.0/config"
+        Copy-Item "./requirements.txt" "./release/StealtHub_AI_v2.0.0/"
+        Copy-Item "./README.md" "./release/StealtHub_AI_v2.0.0/"
+        Copy-Item "./LICENSE" "./release/StealtHub_AI_v2.0.0/"
+        
+        # Crear README específico para ejecutables
+        Set-Content -Path "./release/StealtHub_AI_v2.0.0/README_EXECUTABLES.md" -Value @"
+# 🤖 StealtHub AI v2.0 - Ejecutables Listos
+
+## 🚀 Instalación Súper Simple
+
+**¡NO necesitas instalar Python!** Estos son ejecutables standalone.
+
+### 🎯 Cómo usar:
+
+1. **Descarga** este paquete
+2. **Ejecuta** cualquiera de los archivos .exe
+3. **¡Listo!** Ya puedes usar StealtHub AI
+
+### 📱 Ejecutables Disponibles:
+
+- **🤖 StealtHub_AI_Chat.exe** - Interfaz de chat con IA (RECOMENDADO)
+- **⚡ StealtHub_AI_CLI.exe** - Interfaz de línea de comandos
+- **🚀 StealtHub_AI_Launcher.exe** - Launcher del sistema
+- **🎮 StealtHub_AI_GUI.exe** - Panel de control gráfico
+- **🏗️ StealtHub_AI_Main.exe** - Sistema principal
+
+### 💬 Cómo hablar con la IA:
+
+1. Ejecuta `StealtHub_AI_Chat.exe`
+2. En la ventana de chat, escribe:
+   - "Create aimbot for Free Fire"
+   - "Build Discord bot for gaming"
+   - "Make ESP system with health bars"
+   - "Create complete gaming package"
+
+### 🎮 Ejemplos de Uso:
+
+```
+🤖 AI: ¡Hola! Soy tu asistente de desarrollo de juegos.
+You: "Crea aimbot para Free Fire"
+🤖 AI: ✅ ¡Generado! Archivos listos en generated_code/
+You: "Haz bot de Discord"
+🤖 AI: ✅ ¡Bot creado! Código Python con comandos completos
+```
+
+### 🔧 Características:
+
+- ✅ **Cero instalación** requerida
+- ✅ **Ejecutables standalone** (no necesitas Python)
+- ✅ **Interfaz gráfica** moderna
+- ✅ **Chat inteligente** con IA
+- ✅ **Generación automática** de código
+- ✅ **Compilación automática** a DLL
+- ✅ **Discord integration** incluida
+
+### 📞 Soporte:
+
+- **Discord**: Community Stealth
+- **GitHub**: https://github.com/xpe-hub/StealtHub
+- **Email**: xpepaneles@gmail.com
+
+---
+🤖 **StealtHub AI v2.0** | xpe.nettt | Community Stealth
+*Compilado automáticamente el $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')*
+"@
+        
+        # Crear script de inicio rápido
+        Set-Content -Path "./release/StealtHub_AI_v2.0.0/START_AI.bat" -Value @"
+@echo off
+echo 🤖 StealtHub AI v2.0 - Quick Start
+echo ================================
+echo.
+echo 🎯 Elige tu interfaz preferida:
+echo.
+echo 1. Chat AI (RECOMENDADO) - Interfaz de conversación
+echo 2. CLI - Línea de comandos
+echo 3. Launcher - Sistema completo
+echo 4. GUI - Panel de control
+echo.
+set /p choice="Ingresa tu opción (1-4): "
+
+if "%choice%"=="1" (
+    echo 🤖 Iniciando Chat AI...
+    start "" "StealtHub_AI_Chat.exe"
+) else if "%choice%"=="2" (
+    echo ⚡ Iniciando CLI...
+    start "" "StealtHub_AI_CLI.exe"
+) else if "%choice%"=="3" (
+    echo 🚀 Iniciando Launcher...
+    start "" "StealtHub_AI_Launcher.exe"
+) else if "%choice%"=="4" (
+    echo 🎮 Iniciando GUI...
+    start "" "StealtHub_AI_GUI.exe"
+) else (
+    echo ❌ Opción inválida. Usando Chat AI por defecto...
+    start "" "StealtHub_AI_Chat.exe"
+)
+
+echo.
+echo ✅ StealtHub AI iniciado!
+echo.
+echo 💬 Comandos útiles para la IA:
+echo - "Create aimbot for Free Fire"
+echo - "Build Discord bot for gaming"
+echo - "Make ESP with health bars"
+echo - "Create complete project"
+echo.
+pause
+"@
+        
+    - name: 🗂️ Create ZIP Archive
+      run: |
+        echo "🗂️ Creating ZIP archive..."
+        Compress-Archive -Path "./release/*" -DestinationPath "./StealtHub_AI_v2.0.0_Executables.zip" -Force
+        
+    - name: 📊 Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: stealtHub-ai-executables
+        path: |
+          ./dist/*.exe
+          ./release/
+          ./StealtHub_AI_v2.0.0_Executables.zip
+          
+  # 🚀 Create Release on GitHub
+  create-release:
+    runs-on: ubuntu-latest
+    needs: build-windows
+    if: github.ref == 'refs/heads/main' || github.event_name == 'release'
+    
+    steps:
+    - name: 📥 Download Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: stealtHub-ai-executables
+        path: ./release_artifacts
+        
+    - name: 🏷️ Get Release Tag
+      id: get_release_tag
+      run: |
+        if [[ "${{ github.event_name }}" == "release" ]]; then
+          echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+        else
+          echo "tag=v2.0.0-build-$(date +%Y%m%d-%H%M%S)" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: 🚀 Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.get_release_tag.outputs.tag }}
+        name: 🤖 StealtHub AI v2.0 - Ejecutables Listos
+        body: |
+          ## 🎉 **StealtHub AI v2.0 - Ejecutables Listos**
+          
+          ### ✅ **¡INSTALACIÓN SÚPER SIMPLE!**
+          **NO necesitas instalar Python ni dependencias**
+          
+          ### 🚀 **Descarga y Ejecuta**
+          1. Descarga `StealtHub_AI_v2.0.0_Executables.zip`
+          2. Descomprime el archivo
+          3. Ejecuta cualquier archivo `.exe`
+          4. ¡Listo! Ya puedes usar tu IA
+          
+          ### 🎮 **Ejecutables Incluidos:**
+          - **🤖 StealtHub_AI_Chat.exe** - Chat con IA (RECOMENDADO)
+          - **⚡ StealtHub_AI_CLI.exe** - Línea de comandos
+          - **🚀 StealtHub_AI_Launcher.exe** - Sistema launcher
+          - **🎮 StealtHub_AI_GUI.exe** - Panel de control
+          - **🏗️ StealtHub_AI_Main.exe** - Sistema principal
+          
+          ### 💬 **Cómo Hablar con la IA:**
+          ```
+          "Create aimbot for Free Fire"
+          "Build Discord bot for gaming controls"
+          "Make ESP with health bars and names"
+          "Create complete gaming project"
+          ```
+          
+          ### 🎯 **Características:**
+          - ✅ **Cero instalación** requerida
+          - ✅ **Ejecutables standalone** 
+          - ✅ **Interfaz gráfica** moderna
+          - ✅ **Chat inteligente** con IA
+          - ✅ **Generación automática** de código C++/Python
+          - ✅ **Compilación automática** a DLL
+          - ✅ **Discord integration** incluida
+          - ✅ **Anti-detection** mechanisms
+          
+          ### 📁 **Archivos Incluidos:**
+          - Ejecutables (.exe) listos para usar
+          - README específico para ejecutables
+          - Script de inicio rápido (START_AI.bat)
+          - Documentación completa
+          - Configuración por defecto
+          
+          ### 🔥 **Para Principiantes:**
+          - **Doble clic** en `START_AI.bat`
+          - **Selecciona** la opción 1 (Chat AI)
+          - **¡Empieza a chatear** con tu IA!
+          
+          ---
+          
+          **🤖 StealtHub AI v2.0** | **Community Stealth** | **xpe.nettt**
+          
+          *Compilado automáticamente con GitHub Actions*
+          
+        files: |
+          release_artifacts/StealtHub_AI_v2.0.0_Executables.zip
+        draft: false
+        prerelease: false
+        
+    - name: 📢 Success Notification
+      run: |
+        echo "🎉 StealtHub AI Executables Build & Release Complete!"
+        echo "📦 Release: ${{ steps.get_release_tag.outputs.tag }}"
+        echo "🔗 GitHub: ${{ github.repository }}"
+        echo "💾 Download: Check the release artifacts above"
+        echo ""
+        echo "✅ Users can now download and run the executables directly!"
+        echo "🎯 No Python installation required!"
+        
+  # 🔔 Notification Job
+  notify:
+    runs-on: ubuntu-latest
+    needs: [build-windows, create-release]
+    if: always()
+    
+    steps:
+    - name: 📊 Build Results
+      run: |
+        if [[ "${{ needs.build-windows.result }}" == "success" && "${{ needs.create-release.result }}" == "success" ]]; then
+          echo "🎉 SUCCESS: All Windows executables built and released!"
+          echo "✅ Chat AI, CLI, Launcher, GUI, and Main system executables ready"
+          echo "📦 Release package created with ZIP archive"
+          echo "🔗 Available at GitHub Releases"
+          echo ""
+          echo "🎯 USERS CAN NOW:"
+          echo "   1. Download ZIP from GitHub Releases"
+          echo "   2. Extract and run any .exe directly"
+          echo "   3. Start chatting with AI immediately"
+          echo "   4. NO Python installation required!"
+        else
+          echo "❌ BUILD FAILED"
+          echo "Please check the build logs for errors"
+        fi
